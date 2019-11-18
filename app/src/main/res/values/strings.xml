@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Weather App</string>
+    <string name="hi_world">Hi World!</string>
+    <string name="temperature">Temperature:</string>
+    <string name="textview">TextView</string>
+    <string name="t_shirt_icon">t shirt icon</string>
+    <string name="long_sleeve_shirt_icon">long_sleeve_shirt_icon</string>
+    <string name="long_pants">long_pants</string>
+    <string name="umbrella">umbrella</string>
+    <string name="shorts">shorts</string>
+    <string name="hood">hood</string>
+    <string name="cap">cap</string>
+    <string name="sunglasses">sunglasses</string>
+    <string name="snow_cap">snow_cap</string>
+    <string name="overcoat">overcoat</string>
+    <string name="gloves">gloves</string>
+    <string name="sweater">sweater</string>
 </resources>
