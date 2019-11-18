@@ -72,6 +72,7 @@ public class SuggestionCalculation {
             suggestionSize++;
         }
 
+        /*
         if(temp_int > 60){
             suggestion_list.add(allClothes.get(1)); //Adds T-Shirt if over 60
             suggestionSize++;
@@ -84,6 +85,7 @@ public class SuggestionCalculation {
             suggestion_list.add(allClothes.get(12)); //adds sweater if greater than 40
             suggestionSize++;
         }
+        */
 
         if(temp_int > 70){
             suggestion_list.add(allClothes.get(3)); //Adds shorts if over 70
