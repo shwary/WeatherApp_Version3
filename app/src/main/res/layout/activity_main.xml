@@ -33,9 +33,13 @@
                 android:fontFamily="sans-serif-thin" android:layout_gravity="center"
                 android:text="29°C"/>
 
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="207dp" />
 
 
-<!--            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"-->
+            <!--            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"-->
 <!--                android:orientation="horizontal" android:gravity="center">-->
 <!--                <TextView android:id="@+id/temp_min" android:layout_width="wrap_content"-->
 <!--                    android:layout_height="wrap_content" android:text="Min Temp: 05:05 AM"/>-->
@@ -46,7 +50,6 @@
 <!--            </LinearLayout>-->
 
         </LinearLayout>
-
 
         <LinearLayout android:id="@+id/detailsContainer" android:layout_width="match_parent"
             android:layout_height="wrap_content" android:orientation="vertical"
@@ -144,10 +147,6 @@
             </LinearLayout>
         </LinearLayout>
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
     </RelativeLayout>
 
 
