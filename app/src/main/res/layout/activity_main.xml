@@ -33,25 +33,14 @@
                 android:fontFamily="sans-serif-thin" android:layout_gravity="center"
                 android:text="29°C"/>
 
-            <TextView
-                android:id="@+id/clothesSuggestion"
-                android:layout_centerHorizontal="true"
-                android:text = " What to wear today? \n Midi Skirt + Sweater. Collage Vintage. \n
-Trench + Wide-Leg Pants. \n
-Plaid Pants + Sleek Button-Down. \n
-Summery Dress + Overcoat. \n
-Light Jackets + Silk Scarves. \n
-Short Skirt + Tall Socks. \n
-High-Slit Skirt + Over-the-Knee Boots.\n"
-                android:layout_below="@+id/updateText"
-                android:textSize="20sp"
-                android:layout_marginTop="25dp"
-                android:layout_marginLeft="15dp"
-                android:textColor="#fff"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="207dp"
+                android:tint="#ffffff"/>
 
-<!--            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"-->
+
+            <!--            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"-->
 <!--                android:orientation="horizontal" android:gravity="center">-->
 <!--                <TextView android:id="@+id/temp_min" android:layout_width="wrap_content"-->
 <!--                    android:layout_height="wrap_content" android:text="Min Temp: 05:05 AM"/>-->
@@ -62,7 +51,6 @@ High-Slit Skirt + Over-the-Knee Boots.\n"
 <!--            </LinearLayout>-->
 
         </LinearLayout>
-
 
         <LinearLayout android:id="@+id/detailsContainer" android:layout_width="match_parent"
             android:layout_height="wrap_content" android:orientation="vertical"
@@ -159,6 +147,7 @@ High-Slit Skirt + Over-the-Knee Boots.\n"
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
+
     </RelativeLayout>
 
 

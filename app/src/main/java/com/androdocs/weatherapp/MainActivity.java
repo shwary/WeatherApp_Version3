@@ -5,15 +5,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 
@@ -59,6 +65,34 @@ class HttpRequest {
     }
 }
 
+class ViewPagerAdapter extends FragmentPagerAdapter {
+    private final List<Fragment> mFragmentList = new ArrayList<>();
+    private final List<String> mFragmentTitleList = new ArrayList<>();
+
+    public ViewPagerAdapter(@NonNull FragmentManager fm, int behavior) {
+        super(fm, behavior);
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+        return mFragmentList.get(position);
+    }
+
+    @Override
+    public int getCount() {
+        return mFragmentList.size();
+    }
+
+    public void addFrag(Fragment fragment, String title) {
+        mFragmentList.add(fragment);
+        mFragmentTitleList.add(title);
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return mFragmentTitleList.get(position);
+    }
+}
 
 public class MainActivity extends AppCompatActivity {
 
@@ -67,6 +101,8 @@ public class MainActivity extends AppCompatActivity {
 
     TextView addressTxt, updated_atTxt, statusTxt, tempTxt, temp_minTxt, temp_maxTxt, sunriseTxt,
             sunsetTxt, windTxt, pressureTxt, statusText,suggestion_Text;
+
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +120,11 @@ public class MainActivity extends AppCompatActivity {
         windTxt = findViewById(R.id.wind);
         pressureTxt = findViewById(R.id.pressure);
         statusText = findViewById(R.id.status);
-        suggestion_Text = findViewById(R.id.clothesSuggestion);
+        //suggestion_Text = findViewById(R.id.clothesSuggestion);
+
+        viewPager = findViewById(R.id.viewpager);
+        //SuggestionCalculation sc = new SuggestionCalculation();
+        //addTabs(viewPager,sc.suggestion(Integer.parseInt("55"),"15","misty"));
 
         new weatherTask().execute();
     }
@@ -119,8 +159,9 @@ public class MainActivity extends AppCompatActivity {
                 Long updatedAt = jsonObj.getLong("dt");
                 String updatedAtText = "Updated at: " + new SimpleDateFormat("dd/MM/yyyy hh:mm a", Locale.ENGLISH).format(new Date(updatedAt * 1000));
                 float temp_float = Float.valueOf(main.getString("temp")).floatValue();
-                temp_float = (float) (temp_float*1.8+32);
+                temp_float = (float) (temp_float*1.8+32);//convert from C to F i believe
                 temp_float = Math.round(temp_float*10)/10;
+                int temp_suggest = (int) temp_float;
                 String temperature  = String.valueOf(temp_float);
                 String temp = temperature + "°F";
 //
@@ -149,29 +190,14 @@ public class MainActivity extends AppCompatActivity {
                 windTxt.setText(windSpeed);
                 pressureTxt.setText(pressure);
                 //humidityTxt.setText(humidity);
-                int temp_int = (int)temp_float;
 
-                String retStr;
-
-                if( temp_int <= 40 ){
-                    retStr = "            Suggestion for Clothing \n\n                    Thick sweater\n\n                      Winter coat\n\n                           Boots";
-                }else if( temp_int > 40 && temp_int <= 50 ){
-                    retStr = "            Suggestion for Clothing \n\n                        Sweater\n\n                          Jeans\n\n                     Turtlenecks";
-                }else if( temp_int > 50 && temp_int <= 60 ){
-                    retStr = "            Suggestion for Clothing \n\n                  Long sleeve shirt\n\n                    Blazer/Vest \n\n                         Jeans";
-                }else if( temp_int > 60 && temp_int <= 70 ){
-                    retStr = "            Suggestion for Clothing \n\n                  Long sleeve shirt\n\n                        or T-shirt \n\n";
-                }else{
-                    retStr = "            Suggestion for Clothing \n\n                  Cotton T-shirt\n\n                Light-colored pants \n\n                Light jacket at night";
-                }
-
-                suggestion_Text.setText(retStr);
-
+                SuggestionCalculation sc = new SuggestionCalculation();
+                addTabs(viewPager,sc.suggestion(temp_suggest,windSpeed,weatherDescription));
+                //addTabs(viewPager,sc.suggestion(Integer.parseInt("55"),"12","clear sky"));
 
                 /* Views populated, Hiding the loader, Showing the main design */
                 findViewById(R.id.loader).setVisibility(View.GONE);
                 findViewById(R.id.mainContainer).setVisibility(View.VISIBLE);
-
 
             } catch (JSONException e) {
                 findViewById(R.id.loader).setVisibility(View.GONE);
@@ -179,5 +205,40 @@ public class MainActivity extends AppCompatActivity {
             }
 
         }
+    }
+
+    private void addTabs(ViewPager viewPager, String[] constraints) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(),0);
+        /*   there's probably a better way of doing this. Probably also a better way instead of Fragment classes*/
+        for(int i = 0; i < constraints.length; i++){
+            switch (constraints[i]){
+                case "T-Shirt": adapter.addFrag(new TShirt(),"TSHIRT");
+                    break;
+                case "Long Sleeve Shirt": adapter.addFrag(new LongShirt(),"LONGSLEEVESHIRT");
+                    break;
+                case "Shorts": adapter.addFrag(new Shorts(),"SHORTS");
+                    break;
+                case "Pants": adapter.addFrag(new LongPants(),"LONGPANTS");
+                    break;
+                case "Umbrella": adapter.addFrag(new Umbrella(),"UMBRELLA");
+                    break;
+                case "Sunglasses": adapter.addFrag(new Sunglasses(),"SUNGLASSES");
+                    break;
+                case "Jacket": adapter.addFrag(new Jacket(),"JACKET");
+                    break;
+                case "Sweatshirt": adapter.addFrag(new SweatShirt(),"SWEATSHIRT");
+                    break;
+                case "Snow Cap": adapter.addFrag(new SnowCap(),"SNOWCAP");
+                    break;
+                case "Hat": adapter.addFrag(new Hat(),"HAT");
+                    break;
+                case "Gloves": adapter.addFrag(new Gloves(),"GLOVES");
+                    break;
+                case "Sweater": adapter.addFrag(new Sweater(),"SWEATER");
+                    break;
+            }
+
+        }
+        viewPager.setAdapter(adapter);
     }
 }
